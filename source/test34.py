@@ -3,14 +3,9 @@ Created on 2017 11-11
 @author: Sam
 @Descripution: 
     帮助财务部门实现Excel表的数据自动比对功能
+    这里测试了一下pyinstaller打包成可执行程序的功能，执行命令：pyinstaller -F test34.py
 '''
-import xlrd
 import xlwt
-import os
-# from xlutils.copy import copy
-# import openpyxl
-# from openpyxl import Workbook
-
 from xlrd import open_workbook
 from xlutils.copy import copy
 
@@ -54,7 +49,10 @@ from xlutils.copy import copy
 # 文件的位置信息
 f_name = "TOD报关单核对.xls"
 f_path = "../data/" + f_name
-
+# 粗字体
+# style = xlwt.easyxf('font: bold 1')
+# 加粗，红色字体
+style = xlwt.easyxf('font: bold 1, color red;')
 # 两个变量分别存储表中的需要获取数据的列号,
 # 第一列是可插入数据的列号，第2,3列是需要输出的两列数据，
 # 最后四列是需要对比的四列数据
@@ -65,65 +63,68 @@ data = open_workbook(f_path)
 wb = copy(data)
 # 获取每个文件的table
 sale_table = data.sheets()[0]
-# sale_wb = copy(sale_table)
 custom_table = data.sheets()[1]
-# custom_wb = copy(custom_table)
 # 获取每个表的行数
 sale_nrows = sale_table.nrows
 custom_nrows = custom_table.nrows
 print("销货表有%s行，报关表有%s行" % (sale_nrows, custom_nrows))
 
-print(sale_table.row_values(1)[sale_col[3]])
-print(sale_table.row_values(1)[sale_col[4]])
-print(sale_table.row_values(1)[sale_col[5]])
-print(sale_table.row_values(1)[sale_col[6]])
+# print(sale_table.row_values(1)[sale_col[3]])
+# print(sale_table.row_values(1)[sale_col[4]])
+# print(sale_table.row_values(1)[sale_col[5]])
+# print(sale_table.row_values(1)[sale_col[6]])
+# print(custom_table.row_values(0)[custom_col[3]])
+# print(custom_table.row_values(0)[custom_col[4]])
+# print(custom_table.row_values(0)[custom_col[5]])
+# print(custom_table.row_values(0)[custom_col[6]])
+# print("================><================")
+# print(sale_table.row_values(201)[sale_col[3]] == custom_table.row_values(681)[custom_col[3]])
+# print(int(sale_table.row_values(201)[sale_col[4]]) == int(custom_table.row_values(681)[custom_col[4]]))
+# print(sale_table.row_values(201)[sale_col[5]] == custom_table.row_values(681)[custom_col[5]])
+# print(sale_table.row_values(201)[sale_col[6]] == custom_table.row_values(681)[custom_col[6]])
 
-print(custom_table.row_values(0)[custom_col[3]])
-print(custom_table.row_values(0)[custom_col[4]])
-print(custom_table.row_values(0)[custom_col[5]])
-print(custom_table.row_values(0)[custom_col[6]])
-print("================><================")
-print(sale_table.row_values(201)[sale_col[3]] == custom_table.row_values(681)[custom_col[3]])
-print(int(sale_table.row_values(201)[sale_col[4]]) == int(custom_table.row_values(681)[custom_col[4]]))
-print(sale_table.row_values(201)[sale_col[5]] == custom_table.row_values(681)[custom_col[5]])
-print(sale_table.row_values(201)[sale_col[6]] == custom_table.row_values(681)[custom_col[6]])
 # 检查销货表里面的数据是否在报关表里面
 for i in range(sale_nrows):
     flag = False
+    c1 = 1
+    c2 = 2
     for j in range(custom_nrows):
         if sale_table.row_values(i)[sale_col[3]] == custom_table.row_values(j)[custom_col[3]] \
                 and int(sale_table.row_values(i)[sale_col[4]]) == int(custom_table.row_values(j)[custom_col[4]]) \
                 and sale_table.row_values(i)[sale_col[5]] == custom_table.row_values(j)[custom_col[5]] \
                 and sale_table.row_values(i)[sale_col[6]] == custom_table.row_values(j)[custom_col[6]] \
                 and (i != 0 or j != 0):
-            # 插入是否匹配
             flag = True
-            # print("销货表中第%s行数据在报关单中找到匹配，对应的内部编号是：%s,对应的报关单号是： %s" % (i + 1, custom_table.row_values(j)[custom_col[1]], custom_table.row_values(j)[custom_col[2]]))
-            wb.get_sheet(0).write(i, sale_col[0] + 1, custom_table.row_values(j)[custom_col[1]])
-            wb.get_sheet(0).write(i, sale_col[0] + 2, custom_table.row_values(j)[custom_col[2]])
-            # wb.save(f_path)
+            # print("销货表中第%s行数据在报关单中找到匹配，对应的内部编号是：%s,对应的报关单号是： %s"
+            # % (i + 1, custom_table.row_values(j)[custom_col[1]], custom_table.row_values(j)[custom_col[2]]))
+            wb.get_sheet(0).write(i, sale_col[0] + c1, custom_table.row_values(j)[custom_col[1]], style)
+            wb.get_sheet(0).write(i, sale_col[0] + c2, custom_table.row_values(j)[custom_col[2]], style)
+            c1 += 2
+            c2 += 2
     if not flag:
         # print("销货表中第%s行数据在报关单中未找到匹配" % i)
-        # print(wb)
         wb.get_sheet(0).write(i, sale_col[0], "ERROR!")
-        # wb.save(f_path)
+# 检查报关单中的数据是否在销货表中。
 for i in range(custom_nrows):
     flag = False
+    c1 = 1
+    c2 = 2
     for j in range(sale_nrows):
         if sale_table.row_values(j)[sale_col[3]] == custom_table.row_values(i)[custom_col[3]] \
                 and int(sale_table.row_values(j)[sale_col[4]]) == int(custom_table.row_values(i)[custom_col[4]]) \
                 and sale_table.row_values(j)[sale_col[5]] == custom_table.row_values(i)[custom_col[5]] \
                 and sale_table.row_values(j)[sale_col[6]] == custom_table.row_values(i)[custom_col[6]] \
                 and (i != 0 or j != 0):
-            # 插入是否匹配
             flag = True
-            # print("销货表中第%s行数据在报关单中找到匹配，对应的内部编号是：%s,对应的报关单号是： %s" % (i + 1, custom_table.row_values(j)[custom_col[1]], custom_table.row_values(j)[custom_col[2]]))
-            wb.get_sheet(1).write(i, custom_col[0] + 1, sale_table.row_values(j)[sale_col[1]])
-            wb.get_sheet(1).write(i, custom_col[0] + 2, sale_table.row_values(j)[sale_col[2]])
-            # wb.save(f_path)
+            # print("销货表中第%s行数据在报关单中找到匹配，对应的内部编号是：%s,对应的报关单号是： %s"
+            # % (i + 1, custom_table.row_values(j)[custom_col[1]], custom_table.row_values(j)[custom_col[2]]))
+            # tmp1 = sale_table.row_values(j)[sale_col[1]] + "," + tmp1
+            # tmp2 = sale_table.row_values(j)[sale_col[2]] + "," + tmp2
+            wb.get_sheet(1).write(i, custom_col[0] + c1, sale_table.row_values(j)[sale_col[1]], style)
+            wb.get_sheet(1).write(i, custom_col[0] + c2, sale_table.row_values(j)[sale_col[2]], style)
+            c1 += 2
+            c2 += 2
     if not flag:
         # print("销货表中第%s行数据在报关单中未找到匹配" % i)
-        # print(wb)
         wb.get_sheet(1).write(i, custom_col[0], "ERROR!")
-        # wb.save(f_path)
 wb.save(f_path)
