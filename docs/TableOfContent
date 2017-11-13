@@ -1,4 +1,4 @@
 test31 学习使用sax解析XML文件
 test32 学习使用xml.dom解析XML文件
 test33 学习使用 解析XML文件
-test34 学习使用xlrd读写Excel文件（pip install xlutils）
+test34 学习使用xlrd xlwt读写Excel文件（pip3 install xlutils pip3 install pyinstaller）
