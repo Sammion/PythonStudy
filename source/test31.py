@@ -1,3 +1,9 @@
+'''
+Created on 2017-11-11
+@author: Sam 
+@description: 学习使用sax解析XML文件
+
+''' 
 import xml.sax
 class MovieHandler(xml.sax.ContentHandler):
     def __init__(self):
