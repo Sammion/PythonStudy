@@ -53,7 +53,7 @@ import chardet
 如果报关单里的数据在销货表里面有，给出销货表里的订单行ID和事务处理编号；否则在报关单最后一列输出“差异”
 '''
 # 文件的位置信息
-f_name = "001.xls"
+f_name = "TOD报关单核对.xls"
 f_path = "../data/" + f_name
 # 加粗，红色字体
 style = xlwt.easyxf('font: bold 1, color red;')
@@ -83,11 +83,9 @@ print(custom_table.row_values(575)[custom_col[5]])
 print(custom_table.row_values(575)[custom_col[6]])
 print("=============================================> 我就是分割线 <====================================")
 print(sale_table.row_values(17)[sale_col[3]] == custom_table.row_values(74)[custom_col[3]])
-# print(int(sale_table.row_values(200)[sale_col[4]].strip()) == int(custom_table.row_values(575)[custom_col[4]].strip()))
 print(sale_table.row_values(17)[sale_col[5]] == custom_table.row_values(74)[custom_col[5]])
 print(sale_table.row_values(17)[sale_col[6]] == custom_table.row_values(74)[custom_col[6]])
-print(int(sale_table.row_values(17)[sale_col[4]].strip().replace('\u202d', '').replace('\u202c', '')) == int(
-    custom_table.row_values(74)[custom_col[4]].strip()))
+print(int(sale_table.row_values(201)[sale_col[4]]) == custom_table.row_values(681)[custom_col[4]])
 print('============================================> 我是分割线 <========================================')
 tmp1 = sale_table.row_values(200)[sale_col[4]].strip()
 print(tmp1, type(tmp1))
@@ -105,7 +103,7 @@ for i in range(2, sale_nrows):
     c1 = 1
     c2 = 2
     sale_client_name = sale_table.row_values(i)[sale_col[3]]
-    sale_product_ID = int(sale_table.row_values(i)[sale_col[4]].strip().replace('\u202d', '').replace('\u202c', ''))
+    sale_product_ID = int(sale_table.row_values(i)[sale_col[4]])
 
     sale_amount = sale_table.row_values(i)[sale_col[5]]
     sale_price = sale_table.row_values(i)[sale_col[6]]
@@ -138,7 +136,7 @@ for i in range(1,custom_nrows):
     cus_price = custom_table.row_values(i)[custom_col[6]]
     for j in range(2,sale_nrows):
         sale_client_name = sale_table.row_values(j)[sale_col[3]]
-        sale_product_ID = int(sale_table.row_values(j)[sale_col[4]].strip().replace('\u202d', '').replace('\u202c', ''))
+        sale_product_ID = int(sale_table.row_values(j)[sale_col[4]])
         sale_amount = sale_table.row_values(j)[sale_col[5]]
         sale_price = sale_table.row_values(j)[sale_col[6]]
 
