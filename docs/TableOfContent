@@ -1,4 +1,15 @@
-test31 学习使用sax解析XML文件
-test32 学习使用xml.dom解析XML文件
-test33 学习使用 解析XML文件
-test34 学习使用xlrd xlwt读写Excel文件（pip3 install xlutils pip3 install pyinstaller pip install chardet）
+test31 学习使用sax解析XML文件。
+test32 学习使用xml.dom解析XML文件。
+test33 学习使用xlrd xlwt读写Excel文件（旧版）。
+test34 学习使用xlrd xlwt读写Excel文件（pip3 install xlutils pip3 install pyinstaller pip install chardet）。
+test35 学习socket编程。
+test36 学习使用Urllib。
+test37 使用Urllib爬取第一个网站。
+test38 写了一个工具，主要实现string写入文件。
+
+
+
+
+
+
+
