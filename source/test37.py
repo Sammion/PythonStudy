@@ -7,6 +7,7 @@ import urllib
 import re
 import urllib.request
 from collections import deque
+from source.test38 import writeData
 
 queue = deque()
 visited = set()
@@ -14,7 +15,10 @@ visited = set()
 url = 'http://news.dbanotes.net'
 queue.append(url)
 cnt = 0
+tmp_fiel = '../docs/test.txt'
+
 while queue:
+    writeData('queue:{0}'.format(str(queue)))
     url = queue.popleft()
     visited |= {url}
     print('已经抓取：', str(cnt), '\n正在抓取：', url)
@@ -30,6 +34,4 @@ while queue:
     for x in linkre.findall(data):
         if 'http' in x and x not in visited:
             queue.append(x)
-            print('加入队列---》'+x)
-
-
+            print('加入队列---》' + x)
