@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Sep  3 10:16:36 2017
-
 @author: shuai.qian
 """
 import math
