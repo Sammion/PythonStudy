@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from odps.df import DataFrame
 from odps import ODPS
 
-o = ODPS('LTAIJ6TMwyjIvqfu','59QL5ItFqHN9pu0XSKv6gQxihIlO6O',project='Trina_Smart_Production', endpoint='http://service.odps.aliyun.com/api')
+o = ODPS('',project='', endpoint='')
 t = DataFrame(o.get_table('tmp_ods_mc_testing_dlt'))
 print("=================================> START <==================================")
 #print(t.dtypes)
