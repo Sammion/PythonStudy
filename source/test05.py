@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Sep  3 15:30:52 2017
-
 @author: shuai.qian
 """
 def fact (n):
