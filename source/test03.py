@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Sep  2 23:24:49 2017
-
 @author: shuai.qian
 """
 name = ["sam","qian","shuai"]
