@@ -1,9 +1,9 @@
 # @author：Sam
 # @date:2017-12-02
-# desc：
+# desc：string写入文件
 #
 
-def writeData(data, path):
+def writeData(data=None, path=None):
     if path == '' or path is None:
         f_path = 'file.txt'
     else:
@@ -14,3 +14,5 @@ def writeData(data, path):
     with open(f_path, 'a+') as f:
         f.write(data)
         print('写入数据成功')
+
+
