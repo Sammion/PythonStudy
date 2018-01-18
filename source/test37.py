@@ -18,12 +18,13 @@ cnt = 0
 tmp_fiel = '../docs/test.txt'
 
 while queue:
-    writeData('queue:{0}'.format(str(queue)))
+    # writeData('queue:{0}'.format(str(queue)))
     url = queue.popleft()
     visited |= {url}
     print('已经抓取：', str(cnt), '\n正在抓取：', url)
     cnt += 1
     urlop = urllib.request.urlopen(url)
+    print(urlop.getheader('Content-type'))
     if 'html' not in urlop.getheader('Content-type'):
         continue
     try:
