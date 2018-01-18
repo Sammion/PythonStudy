@@ -36,7 +36,7 @@ test34 学习使用xlrd xlwt读写Excel文件
 test35 学习socket编程
 test36 学习使用Urllib
 test37 使用Urllib爬取第一个网站
-test38 写了一个工具，主要实现string写入文件
+test38 string写入文件
 test39 插入排序
 test40 希尔排序
 test41 冒泡排序
@@ -47,3 +47,14 @@ test45 再学Python的线程与进程（二）
 test46 再学Python的线程与进程（三）
 test47 再学Python的线程与进程（四）
 test48 再学Python的线程与进程（五）
+test49 再学Python的线程与进程（六）
+test50 再学装饰器（一）
+
+
+
+
+
+
+
+
+
