@@ -70,6 +70,7 @@ for i in range(1, sale_nrows):
     c1 = 1
     c2 = 2
     sale_client_name = sale_table.row_values(i)[sale_col[3]]
+    print(sale_table.row_values(i)[sale_col[4]])
     sale_product_ID = int(sale_table.row_values(i)[sale_col[4]])
     sale_amount = sale_table.row_values(i)[sale_col[5]]
     sale_price = sale_table.row_values(i)[sale_col[6]]
