@@ -1,6 +1,6 @@
 # @author Sam
 # @date 2018-01-17
-# desc 再学Python的线程与进程（五）
+# desc 再学Python的线程与进程（六）
 # ThreadLocal
 import threading
 
