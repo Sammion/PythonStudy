@@ -1,6 +1,6 @@
 # @author Sam
 # @date 2018-01-17
-# desc 再学装饰器
+# desc 再学装饰器（一）
 # 在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）。
 
 import os, time
