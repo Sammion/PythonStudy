@@ -1,10 +1,11 @@
-'''
+"""
 Compare two strings A and B, determine whether A contains all of the characters in B.
 
 The characters in string A and B are all Upper Case letters.
 
 比较两个字符串A和B，确定A中是否包含B中所有的字符。字符串A和B中的字符都是 大写字母
-'''
+
+"""
 
 
 class Solution:
