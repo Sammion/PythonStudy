@@ -1,3 +1,18 @@
+"""
+
+Given a unsorted array with integers, find the median of it.
+
+A median is the middle number of the array after it is sorted.
+
+If there are even numbers in the array, return the N/2-th number after sorted.
+
+
+给定一个未排序的整数数组，找到其中位数。
+
+中位数是排序后数组的中间值，如果数组的个数是偶数个，则返回排序后数组的第N/2个数。
+
+"""
+
 class Solution:
     """
     @param: : A list of integers
