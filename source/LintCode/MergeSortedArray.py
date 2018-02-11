@@ -1,3 +1,12 @@
+"""
+
+Given two sorted integer arrays A and B, merge B into A as one sorted array.
+
+合并两个排序的整数数组A和B变成一个新的数组。
+
+"""
+
+
 class Solution:
     """
     @param: A: sorted integer array A which has m elements, but size of A is m+n
@@ -33,8 +42,9 @@ class Solution:
                 n -= 1
         return A
 
+
 if __name__ == '__main__':
     s = Solution()
-    A = [1,2,3,0,0]
-    B = [4,5]
-    print(s.mergeSortedArray(A,3,B,2))
+    A = [1, 2, 3, 0, 0]
+    B = [4, 5]
+    print(s.mergeSortedArray(A, 3, B, 2))
