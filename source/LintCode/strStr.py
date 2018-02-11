@@ -29,26 +29,25 @@ class Solution:
         s, t = 0, 0
         while s <= ls - lt:
             t = 0
+            tmp = s
             while t < lt:
+
                 if target[t] == source[s]:
                     t += 1
                     s += 1
                 else:
                     break
+            s = tmp
             if t == lt:
-                return 1
+                break
+            if s == ls - lt:
+                return -1
             s += 1
-        return -1
+        return s
 
 
 if __name__ == '__main__':
     s = Solution()
-    A = "lintcode"
-    B = "lintcode"
+    A = "tartarget"
+    B = "target"
     print(s.strStr(A, B))
-    for i in A[-3:]:
-        print(i)
-    str = 'abcdefg'
-    l = len(str)
-    offset = 3
-    print( str[(0 - offset):] + str[:(l - offset)])
