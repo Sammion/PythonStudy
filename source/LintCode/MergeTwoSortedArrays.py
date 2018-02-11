@@ -1,3 +1,12 @@
+"""
+
+Merge two given sorted integer array A and B into a new sorted integer array.
+
+合并两个排序的整数数组A和B变成一个新的数组。
+
+"""
+
+
 class Solution:
     """
     @param: A: sorted integer array A
