@@ -1,6 +1,6 @@
 # @author Sam
 # @date 2018-01-23
-# desc 常见内建模块学习（六）
+# desc 常见内建模块学习（七）
 # urllib提供了一系列用于操作URL的功能。
 
 from urllib import request
