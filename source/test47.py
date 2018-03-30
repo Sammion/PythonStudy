@@ -32,7 +32,7 @@ def run_thread(m):
 
 if __name__ == '__main__':
     print('Process %s is running...' % os.getpid())
-    t = threading.Thread(target=loop, name='Loop_Thread', args=(5,))
+    t = threading.Thread(target=run_thread, name='Loop_Thread', args=(5,))
     t.start()
     t.join()
     print('Thread %s ended.' % threading.current_thread().name)
@@ -46,5 +46,3 @@ if __name__ == '__main__':
     t1.join()
     t2.join()
     print(balance)
-
-
