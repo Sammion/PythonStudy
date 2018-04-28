@@ -7,11 +7,13 @@ from bs4 import BeautifulSoup
 import requests, threading, datetime
 from bs4 import BeautifulSoup
 import random
-
+# import sys, io
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='gb18030')  # 改变标准输出的默认编码
 """
 1、从指定文件中获取代理IP
 4、随机访问博客
 """
+
 
 # ------------------------------------------------------文档处理--------------------------------------------------------
 # 写入文档
@@ -130,8 +132,6 @@ def getip(targeturl, path):
     print('一共爬取代理ip: %s 个,共耗时: %s \n' % (len(ips), diff))
 
 
-
-
 # 读取可用代理IP到列表
 def read_IPs(path='ip.txt'):
     with open(path, 'r', encoding='utf-8') as f:
@@ -148,6 +148,7 @@ def RandomNO(n):
 
 # 直接访问
 def visit_directly(headers, url, proxy_IP):
+    # Create handler
     proxy_support = urllib.request.ProxyHandler(proxy_IP)
     # 创建Opener
     opener = urllib.request.build_opener(proxy_support)
@@ -158,11 +159,12 @@ def visit_directly(headers, url, proxy_IP):
     # 使用自己安装好的Opener
     response = urllib.request.urlopen(url)
     # # 读取相应信息并解码
-    # html = response.read().decode("utf-8")
+    html = response.read()
     # # 打印信息
     # print(html)
 
-
+    with open("tmp.html", 'a', encoding='utf-8') as f:
+        f.write(html.decode('UTF-8'))
 
     # request = urllib.request.Request(url, None, headers)  # 组装GET方法的请求
     # menuCode = urllib.request.urlopen(request).read()  # 将网页源代码赋予menuCode
@@ -173,9 +175,10 @@ def visit_directly(headers, url, proxy_IP):
 # 通过百度间接访问
 def visit_indirectly():
     pass
+
+
 # 使用代理服务器的直接访问
 def visit_directly_agent():
-
     for i in range(1, 10000):
         IPs_list = read_IPs()
         # 设置Headers
@@ -201,6 +204,7 @@ def visit_directly_agent():
         else:
             # 进入休眠
             time.sleep(s)
+
 
 # 主函数
 if __name__ == '__main__':
@@ -242,7 +246,6 @@ if __name__ == '__main__':
     #  返回所有的博客标题列表
     titles_list = list(TITLES.keys())
 
-
     for i in range(1, 10000):
         IPs_list = read_IPs()
         # 设置Headers
@@ -256,9 +259,10 @@ if __name__ == '__main__':
         proxy_IP = {'http': random.choice(IPs_list)}
 
         print('本次选择的代理IP: ', proxy_IP['http'])
+        # Visit directly
         visit_directly(headers, url_direct, proxy_IP)
         # 设置休眠时长
-        s = RandomNO(10)
+        s = RandomNO(60)
         # 打印结果信息
         print('这是第{0}次访问，这次访问的是：{1}。将会休眠{2}秒。'.format(i, title_current, s))
         if i % 50 == 0.3:
@@ -268,7 +272,6 @@ if __name__ == '__main__':
         else:
             # 进入休眠
             time.sleep(s)
-
 
     # req = request.Request(url_direct, headers=headers)
     # context_html = request.urlopen(url_direct).read()
