@@ -10,6 +10,7 @@ import random
 3、最后存到指定的path
 """
 
+
 # ------------------------------------------------------文档处理--------------------------------------------------------
 # 写入文档
 def write(path, text):
@@ -75,8 +76,10 @@ def getheaders():
 def checkip(targeturl, ip):
     headers = getheaders()  # 定制请求头
     proxies = {"http": "http://" + ip, "https": "http://" + ip}  # 代理ip
+
     try:
         response = requests.get(url=targeturl, proxies=proxies, headers=headers, timeout=5).status_code
+
         if response == 200:
             return True
         else:
@@ -87,7 +90,7 @@ def checkip(targeturl, ip):
 
 # -------------------------------------------------------获取代理方法----------------------------------------------------
 # 免费代理 XiciDaili
-def findip(type, pagenum, targeturl, path):  # ip类型,页码,目标url,存放ip的路径
+def findip(type, pagenum, targeturl, file_path):  # ip类型,页码,目标url,存放ip的路径
     list = {'1': 'http://www.xicidaili.com/nt/',  # xicidaili国内普通代理
             '2': 'http://www.xicidaili.com/nn/',  # xicidaili国内高匿代理
             '3': 'http://www.xicidaili.com/wn/',  # xicidaili国内https代理
@@ -96,14 +99,12 @@ def findip(type, pagenum, targeturl, path):  # ip类型,页码,目标url,存放i
     headers = getheaders()  # 定制请求头
     html = requests.get(url=url, headers=headers, timeout=5).text
     soup = BeautifulSoup(html, 'lxml')
-    all = soup.find_all('tr', class_='odd')
-    for i in all:
-        t = i.find_all('td')
-        ip = t[1].text + ':' + t[2].text
-        is_avail = checkip(targeturl, ip)
-        if is_avail == True:
-            write(path=path, text=ip)
-            print(ip)
+    tr_list = soup.find_all('tr', class_='odd')
+    with open(file_path, "a", encoding="utf-8") as f:
+        for i in tr_list:
+            td = i.find_all('td')
+            ip_port = td[1].text + ':' + td[2].text
+            f.write(ip_port+'\n')
 
 
 # 多线程抓取ip入口---------------------------------------------------
@@ -111,9 +112,9 @@ def getip(targeturl, path):
     truncatefile(path)  # 爬取前清空文档
     start = datetime.datetime.now()  # 开始时间
     threads = []
-    for type in range(4):  # 四种类型ip,每种类型取前三页,共12条线程
+    for i in range(4):  # 四种类型ip,每种类型取前三页,共12条线程
         for pagenum in range(3):
-            t = threading.Thread(target=findip, args=(type + 1, pagenum + 1, targeturl, path))
+            t = threading.Thread(target=findip, args=(i + 1, pagenum + 1, targeturl, path))
             threads.append(t)
     print('开始爬取代理ip')
     for s in threads:  # 开启多线程爬取
