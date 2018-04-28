@@ -3,6 +3,7 @@
 import requests, threading, datetime
 from bs4 import BeautifulSoup
 import random
+import urllib
 import re
 
 """
@@ -75,56 +76,75 @@ def getheaders():
 
 # -----------------------------------------------------检查ip是否可用----------------------------------------------------
 def checkip(targeturl, ip):
-    headers = getheaders()  # 定制请求头
-    proxies = {"http": "http://" + ip, "https": "http://" + ip}  # 代理ip
+    # headers = getheaders()  # 定制请求头
+    # proxies = {"http": "http://" + ip, "https": "http://" + ip}  # 代理ip
     try:
-        response = requests.get(url=targeturl, proxies=proxies, headers=headers, timeout=5).status_code
-        if response == 200:
-            return True
-        else:
-            return False
+        print("TRY===---------------------------------------->",ip)
+        proxy_support = urllib.request.ProxyHandler("https://" + ip)
+        # 创建Opener
+        opener = urllib.request.build_opener(proxy_support)
+        # 安装OPener
+        urllib.request.install_opener(opener)
+        # 使用自己安装好的Opener
+        response = urllib.request.urlopen(targeturl)
+        # # 读取相应信息并解码
+        html = response.read()
+        return True
+
+
+
+        # response = requests.get(url=targeturl, proxies=proxies, headers=headers, timeout=5).status_code
+        # print("Response: ", response)
+        # if response == 200:
+        #     return True
+        # else:
+        #     return False
     except:
         return False
 
 
 # -------------------------------------------------------获取代理方法----------------------------------------------------
 # 免费代理 XiciDaili
-def findip(type, targeturl, path):  # ip类型,页码,目标url,存放ip的路径
-    list = {'1': 'http://www.data5u.com/free/gngn/index.shtml',  # 国内高匿代理
-            '2': 'http://www.data5u.com/free/gnpt/index.shtml',  # 国内普通代理
-            '3': 'http://www.data5u.com/free/gwgn/index.shtml',  # 国外高匿代理
-            '4': 'http://www.data5u.com/free/gwpt/index.shtml'  # 国外普通代理
+def findip(ip_type, target_url, file_path):  # ip类型,页码,目标url,存放ip的路径
+    list = {0: 'http://www.data5u.com/free/gngn/index.shtml',  # 国内高匿代理
+            1: 'http://www.data5u.com/free/gnpt/index.shtml',  # 国内普通代理
+            2: 'http://www.data5u.com/free/gwgn/index.shtml',  # 国外高匿代理
+            3: 'http://www.data5u.com/free/gwpt/index.shtml'  # 国外普通代理
             }
 
-    url = list[str(type)]  # 配置url
+    url = list[ip_type]  # 配置url
     headers = getheaders()  # 定制请求头
     html = requests.get(url=url, headers=headers, timeout=5).text
     soup = BeautifulSoup(html, 'lxml')
-    all = soup.find_all('ul', {'class': '12'})
-    for i in all:
-        t = i.find_all('li', attrs={'class': "port GEGEA"})
-
-        if t != []:
-            print(t[0].text)
+    # with open("tmp.html",'a',encoding="UTF-8") as f:
+    #     f.write(str(soup))
+    # print(soup)
+    # all_ips = soup.find_all(text=re.compile('(?=(\b|\D))(((\d{1,2})|(1\d{1,2})|(2[0-4]\d)|(25[0-5]))\.){3}((\d{1,2})|(1\d{1,2})|(2[0-4]\d)|(25[0-5]))(?=(\b|\D))'))
+    all_ips = soup.find_all(class_="l2")
+    # print(all_ips)
+    for i in all_ips:
+        # print("\n\n===============================================================\n",i)
+        t = i.find_all('li')
+        if len(t) != 0:
             ip = t[0].text
             port = t[1].text
             ip = ip + ':' + port
             print('抓取到的IP和端口是：', ip)
-            is_avail = checkip(targeturl, ip)
-            if is_avail == True:
-                write(path=path, text=ip)
+            if checkip(target_url, ip):
+                with open(path, 'a') as f:
+                    f.write(path=file_path, text=ip)
                 print(ip)
             else:
                 print('该IP不可用')
 
 
 # 多线程抓取ip入口---------------------------------------------------
-def getip(targeturl, path):
-    truncatefile(path)  # 爬取前清空文档
+def getip(target_url, file_path):
+    truncatefile(file_path)  # 爬取前清空文档
     start = datetime.datetime.now()  # 开始时间
     threads = []
-    for type in range(1):  # 四种类型ip,每种类型取前三页,共12条线程
-        t = threading.Thread(target=findip, args=(type + 1, targeturl, path))
+    for i in range(4):  # 四种类型ip
+        t = threading.Thread(target=findip, args=(i, target_url, file_path))
         threads.append(t)
     print('开始爬取代理ip')
     for s in threads:  # 开启多线程爬取
