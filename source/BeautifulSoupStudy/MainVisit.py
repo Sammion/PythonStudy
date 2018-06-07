@@ -7,12 +7,16 @@ from bs4 import BeautifulSoup
 import requests, threading, datetime
 from bs4 import BeautifulSoup
 import random
-# import sys, io
-# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='gb18030')  # 改变标准输出的默认编码
-"""
-1、从指定文件中获取代理IP
-4、随机访问博客
-"""
+import logging
+from logging.config import fileConfig
+fileConfig('config/Logger_config.ini')
+log = logging.getLogger('mylogger')
+log.info("Start programming!!!")
+import openpyxl
+
+def readBlogs(file_input):
+
+    pass
 
 
 # ------------------------------------------------------文档处理--------------------------------------------------------
@@ -108,7 +112,7 @@ def findip(type, pagenum, targeturl, path):  # ip类型,页码,目标url,存放i
         is_avail = checkip(targeturl, ip)
         if is_avail == True:
             write(path=path, text=ip)
-            print(ip)
+            log.info(ip)
 
 
 # 多线程抓取ip入口---------------------------------------------------
@@ -120,16 +124,16 @@ def getip(targeturl, path):
         for pagenum in range(3):
             t = threading.Thread(target=findip, args=(type + 1, pagenum + 1, targeturl, path))
             threads.append(t)
-    print('开始爬取代理ip')
+    log.info('开始爬取代理ip')
     for s in threads:  # 开启多线程爬取
         s.start()
     for e in threads:  # 等待所有线程结束
         e.join()
-    print('爬取完成')
+    log.info('爬取完成')
     end = datetime.datetime.now()  # 结束时间
     diff = gettimediff(start, end)  # 计算耗时
     ips = read(path)  # 读取爬到的ip数量
-    print('一共爬取代理ip: %s 个,共耗时: %s \n' % (len(ips), diff))
+    log.info('一共爬取代理ip: %s 个,共耗时: %s \n' % (len(ips), diff))
 
 
 # 读取可用代理IP到列表
@@ -161,15 +165,15 @@ def visit_directly(headers, url, proxy_IP):
     # # 读取相应信息并解码
     html = response.read()
     # # 打印信息
-    # print(html)
+    # log.info(html)
 
-    with open("tmp.html", 'a', encoding='utf-8') as f:
-        f.write(html.decode('UTF-8'))
+    # with open("tmp.html", 'a', encoding='utf-8') as f:
+    #     f.write(html.decode('UTF-8'))
 
     # request = urllib.request.Request(url, None, headers)  # 组装GET方法的请求
     # menuCode = urllib.request.urlopen(request).read()  # 将网页源代码赋予menuCode
     # soup = BeautifulSoup(menuCode, 'html.parser')  # 使用html解析器进行解析
-    # print(soup.article)
+    # log.info(soup.article)
 
 
 # 通过百度间接访问
@@ -191,12 +195,12 @@ def visit_directly_agent():
 
         proxy_IP = {'http': random.choice(IPs_list)}
 
-        print('本次选择的代理IP: ', proxy_IP['http'])
+        log.info('本次选择的代理IP: ', proxy_IP['http'])
         visit_directly(headers, url_direct, proxy_IP)
         # 设置休眠时长
         s = RandomNO(60)
         # 打印结果信息
-        print('这是第{0}次访问，这次访问的是：{1}。将会休眠{2}秒。'.format(i, title_current, s))
+        log.info('这是第{0}次访问，这次访问的是：{1}。将会休眠{2}秒。'.format(i, title_current, s))
         if i % 50 == 0.3:
             path = 'ip.txt'  # 存放爬取ip的文档path
             targeturl = 'https://blog.csdn.net/maizi1045/article/details/79455347'  # 验证ip有效性的指定url
@@ -241,7 +245,16 @@ if __name__ == '__main__':
               'Hive官方使用手册——LZO 压缩': '79709919',
               'Hive官方使用手册——数据类型': '79710406',
               'Hive官方使用手册——DDL使用说明': '79724397',
-              'Hive官方使用手册——目录': '79455347'}
+              'Hive官方使用手册——目录': '79455347',
+              'Hive学习笔记1': '80540450',
+              'Hive学习笔记2': '80540502',
+              'Hive学习笔记3': '80545738',
+              'Hive学习笔记1': '80540450',
+              'Hive学习笔记2': '80540502',
+              'Hive学习笔记3': '80545738',
+              'Hive学习笔记1': '80540450',
+              'Hive学习笔记2': '80540502',
+              'Hive学习笔记3': '80545738'}
 
     #  返回所有的博客标题列表
     titles_list = list(TITLES.keys())
@@ -258,13 +271,13 @@ if __name__ == '__main__':
 
         proxy_IP = {'http': random.choice(IPs_list)}
 
-        print('本次选择的代理IP: ', proxy_IP['http'])
+        log.info('本次选择的代理IP: '+proxy_IP['http'])
         # Visit directly
         visit_directly(headers, url_direct, proxy_IP)
         # 设置休眠时长
-        s = RandomNO(60)
+        s = RandomNO(133)
         # 打印结果信息
-        print('这是第{0}次访问，这次访问的是：{1}。将会休眠{2}秒。'.format(i, title_current, s))
+        log.info('这是第{0}次访问，这次访问的是：{1}。将会休眠{2}秒。'.format(i, title_current, s))
         if i % 50 == 0.3:
             path = 'ip.txt'  # 存放爬取ip的文档path
             targeturl = 'https://blog.csdn.net/maizi1045/article/details/79455347'  # 验证ip有效性的指定url
@@ -277,7 +290,7 @@ if __name__ == '__main__':
     # context_html = request.urlopen(url_direct).read()
     # soup = BeautifulSoup(context_html, 'html.parser')
 
-    # print(soup.find(id='article_content'))
+    # log.info(soup.find(id='article_content'))
 
     # 设置百度间接访问的url
     url = 'https://www.baidu.com/s?ie=UTF-8&wd={kw}'.format(kw=random.choice(titles_list))
