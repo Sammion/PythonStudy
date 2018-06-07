@@ -95,7 +95,7 @@ def findip(type, pagenum, targeturl, path):  # ip类型,页码,目标url,存放i
             # '3': 'https://www.kuaidaili.com/ops/proxylist/'
             }
 
-    url = list[str(type)] + str(pagenum) # 配置url
+    url = list[str(type)] + str(pagenum)  # 配置url
     headers = getheaders()  # 定制请求头
     html = requests.get(url=url, headers=headers, timeout=5).text
     soup = BeautifulSoup(html, 'lxml')
@@ -106,7 +106,7 @@ def findip(type, pagenum, targeturl, path):  # ip类型,页码,目标url,存放i
             ip = t[0].text
             port = t[1].text
             ip = ip + ':' + port
-            print('抓取到的IP和端口是：',ip)
+            print('抓取到的IP和端口是：', ip)
             is_avail = checkip(targeturl, ip)
             if is_avail:
                 write(path=path, text=ip)
