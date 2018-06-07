@@ -104,7 +104,8 @@ def findip(type, pagenum, targeturl, file_path):  # ip类型,页码,目标url,�
         for i in tr_list:
             td = i.find_all('td')
             ip_port = td[1].text + ':' + td[2].text
-            f.write(ip_port+'\n')
+            print("IP:Port ", ip_port)
+            f.write(ip_port + '\n')
 
 
 # 多线程抓取ip入口---------------------------------------------------
