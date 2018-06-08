@@ -10,18 +10,18 @@ import urllib.error, urllib.request, urllib.parse
 import http.cookiejar
 from bs4 import BeautifulSoup
 
-LOGIN_URL = 'https://wiki.vip.corp.ebay.com/dologin.action'
-tb_name = "CLSFD_SRVC_PRFL_ATTR_LKP"
+LOGIN_URL = ''
+tb_name = "XXXXXXXXXXXXXXXX"
 # the url need to visit
 # get_url = 'https://wiki.vip.corp.ebay.com/display/DW/'
-get_url = 'https://wiki.vip.corp.ebay.com/display/DW/{tb}'.format(tb=tb_name)
-values = {'os_username': 'sqian', 'os_password': '1234@welcome'}
+get_url = 'https://wiki.vip.corp.com/display/DW/{tb}'.format(tb=tb_name)
+values = {'os_username': 'user', 'os_password': 'password'}
 postdata = urllib.parse.urlencode(values).encode()
 user_agent = r'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36' \
              r' (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36'
 headers = {'User-Agent': user_agent, 'Connection': 'keep-alive'}
 # save cookie to local file and named cookie.txt
-cookie_filename = 'cookie.txt'
+cookie_filename = 'config/cookie.txt'
 cookie_aff = http.cookiejar.MozillaCookieJar(cookie_filename)
 handler = urllib.request.HTTPCookieProcessor(cookie_aff)
 opener = urllib.request.build_opener(handler)
