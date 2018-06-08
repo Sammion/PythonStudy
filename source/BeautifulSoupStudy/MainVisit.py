@@ -9,14 +9,35 @@ from bs4 import BeautifulSoup
 import random
 import logging
 from logging.config import fileConfig
+
 fileConfig('config/Logger_config.ini')
 log = logging.getLogger('mylogger')
 log.info("Start programming!!!")
 import openpyxl
 
-def readBlogs(file_input):
 
-    pass
+def read_urls(file_input, mid="="):
+    res_url = dict()
+    with open(file_input, 'r',encoding="UTF-8") as fr:
+        lines = fr.readlines()
+        for line in lines:
+            name = line.split(mid)[0].strip()
+            url = line.split(mid)[1].strip()
+            res_url[name] = url
+    return res_url
+
+
+def get_config(in_file, mid_word):
+    res_dict = dict()
+    with open(in_file, mode="r", encoding='utf-8') as fr:
+        rows = fr.readlines()
+        for r in rows:
+            k = r.strip().replace("\\n", "").split(mid_word)
+            k = k[0]
+            v = k[-1]
+            res_dict[k] = v
+        fr.close()
+    return res_dict
 
 
 # ------------------------------------------------------文档处理--------------------------------------------------------
@@ -161,6 +182,7 @@ def visit_directly(headers, url, proxy_IP):
     # 安装OPener
     urllib.request.install_opener(opener)
     # 使用自己安装好的Opener
+    # print(url)
     response = urllib.request.urlopen(url)
     # # 读取相应信息并解码
     html = response.read()
@@ -212,6 +234,9 @@ def visit_directly_agent():
 
 # 主函数
 if __name__ == '__main__':
+    url_file = "config/urls.cfg"
+    TITLES = read_urls(url_file, mid="=")
+    # log.info(TITLES)
     # 代理浏览器列表
     USER_AGENTS = [
         "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
@@ -233,28 +258,20 @@ if __name__ == '__main__':
     ]
     # len_user_agents = len(USER_AGENTS)
     # 博客关键字目录
-    TITLES = {'Hive官方使用手册——命令行': '79456510',
-              'Hive官方使用手册——Hive CLI': '79470146',
-              'Hive官方使用手册——新Hive CLI(Beeline CLI)': '79481686',
-              'Hive官方使用手册——变量替换': '79663409',
-              'Hive官方使用手册——HCatalog CLI': '79663787',
-              'Hive官方使用手册——Avro Files': '79664527',
-              'Hive官方使用手册——ORC': '79667857',
-              'Hive官方使用手册——Parquet': '79707582',
-              'Hive官方使用手册——压缩数据存储格式': '79708132',
-              'Hive官方使用手册——LZO 压缩': '79709919',
-              'Hive官方使用手册——数据类型': '79710406',
-              'Hive官方使用手册——DDL使用说明': '79724397',
-              'Hive官方使用手册——目录': '79455347',
-              'Hive学习笔记1': '80540450',
-              'Hive学习笔记2': '80540502',
-              'Hive学习笔记3': '80545738',
-              'Hive学习笔记1': '80540450',
-              'Hive学习笔记2': '80540502',
-              'Hive学习笔记3': '80545738',
-              'Hive学习笔记1': '80540450',
-              'Hive学习笔记2': '80540502',
-              'Hive学习笔记3': '80545738'}
+    # TITLES = {'Hive官方使用手册——命令行': '79456510',
+    #           'Hive官方使用手册——Hive CLI': '79470146',
+    #           'Hive官方使用手册——新Hive CLI(Beeline CLI)': '79481686',
+    #           'Hive官方使用手册——变量替换': '79663409',
+    #           'Hive官方使用手册——HCatalog CLI': '79663787',
+    #           'Hive官方使用手册——Avro Files': '79664527',
+    #           'Hive官方使用手册——ORC': '79667857',
+    #           'Hive官方使用手册——Parquet': '79707582',
+    #           'Hive官方使用手册——压缩数据存储格式': '79708132',
+    #           'Hive官方使用手册——LZO 压缩': '79709919',
+    #           'Hive官方使用手册——数据类型': '79710406',
+    #           'Hive官方使用手册——DDL使用说明': '79724397',
+    #           'Hive官方使用手册——目录': '79455347'
+    #           }
 
     #  返回所有的博客标题列表
     titles_list = list(TITLES.keys())
@@ -266,12 +283,13 @@ if __name__ == '__main__':
         # 设置直接访问的url
         # 本次选择的博客标题
         title_current = random.choice(titles_list)
-        url_direct = 'https://blog.csdn.net/maizi1045/article/details/{0}'.format(TITLES[title_current])
+        # print(title_current)
+        url_direct = 'https://blog.csdn.net/maizi1045/article/details/{id}'.format(id=TITLES[title_current])
         # 设置代理IP
 
         proxy_IP = {'http': random.choice(IPs_list)}
 
-        log.info('本次选择的代理IP: '+proxy_IP['http'])
+        log.info('本次选择的代理IP: ' + proxy_IP['http'])
         # Visit directly
         visit_directly(headers, url_direct, proxy_IP)
         # 设置休眠时长
