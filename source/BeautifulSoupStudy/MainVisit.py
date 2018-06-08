@@ -1,9 +1,7 @@
-import random
+
 import time
-import requests
 import urllib
 from urllib import request
-from bs4 import BeautifulSoup
 import requests, threading, datetime
 from bs4 import BeautifulSoup
 import random
@@ -13,7 +11,6 @@ from logging.config import fileConfig
 fileConfig('config/Logger_config.ini')
 log = logging.getLogger('mylogger')
 log.info("Start programming!!!")
-import openpyxl
 
 
 def read_urls(file_input, mid="="):
@@ -39,8 +36,6 @@ def get_config(in_file, mid_word):
         fr.close()
     return res_dict
 
-
-# ------------------------------------------------------文档处理--------------------------------------------------------
 # 写入文档
 def write(path, text):
     with open(path, 'a', encoding='utf-8') as f:
@@ -63,7 +58,6 @@ def read(path):
     return txt
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 # 计算时间差,格式: 时分秒
 def gettimediff(start, end):
     seconds = (end - start).seconds
@@ -72,8 +66,6 @@ def gettimediff(start, end):
     diff = ("%02d:%02d:%02d" % (h, m, s))
     return diff
 
-
-# ----------------------------------------------------------------------------------------------------------------------
 # 返回一个随机的请求头 headers
 def getheaders():
     user_agent_list = [ \
@@ -257,23 +249,7 @@ if __name__ == '__main__':
         "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
     ]
     # len_user_agents = len(USER_AGENTS)
-    # 博客关键字目录
-    # TITLES = {'Hive官方使用手册——命令行': '79456510',
-    #           'Hive官方使用手册——Hive CLI': '79470146',
-    #           'Hive官方使用手册——新Hive CLI(Beeline CLI)': '79481686',
-    #           'Hive官方使用手册——变量替换': '79663409',
-    #           'Hive官方使用手册——HCatalog CLI': '79663787',
-    #           'Hive官方使用手册——Avro Files': '79664527',
-    #           'Hive官方使用手册——ORC': '79667857',
-    #           'Hive官方使用手册——Parquet': '79707582',
-    #           'Hive官方使用手册——压缩数据存储格式': '79708132',
-    #           'Hive官方使用手册——LZO 压缩': '79709919',
-    #           'Hive官方使用手册——数据类型': '79710406',
-    #           'Hive官方使用手册——DDL使用说明': '79724397',
-    #           'Hive官方使用手册——目录': '79455347'
-    #           }
 
-    #  返回所有的博客标题列表
     titles_list = list(TITLES.keys())
 
     for i in range(1, 10000):
