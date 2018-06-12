@@ -97,7 +97,7 @@ def findip(type, pagenum, targeturl, file_path):  # ip类型,页码,目标url,�
             '4': 'http://www.xicidaili.com/wt/'}  # xicidaili国外http代理
     url = list[str(type)] + str(pagenum)  # 配置url
     headers = getheaders()  # 定制请求头
-    html = requests.get(url=url, headers=headers, timeout=5).text
+    html = requests.get(url=url, headers=headers, timeout=15).text
     soup = BeautifulSoup(html, 'lxml')
     tr_list = soup.find_all('tr', class_='odd')
     with open(file_path, "a", encoding="utf-8") as f:
@@ -131,6 +131,6 @@ def getip(targeturl, path):
 
 # -------------------------------------------------------启动-----------------------------------------------------------
 if __name__ == '__main__':
-    path = 'ip.txt'  # 存放爬取ip的文档path
+    path = 'config/xicidaili_ips.lis'  # 存放爬取ip的文档path
     targeturl = 'https://blog.csdn.net/maizi1045/article/details/79455347'  # 验证ip有效性的指定url
     getip(targeturl, path)
