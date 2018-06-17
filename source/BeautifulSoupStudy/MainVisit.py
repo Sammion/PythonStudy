@@ -137,7 +137,7 @@ def getip(targeturl, path):
 
 
 # 读取可用代理IP到列表
-def read_IPs(path='ip.txt'):
+def read_IPs(path='config/xicidaili_ips.lis'):
     with open(path, 'r', encoding='utf-8') as f:
         IPs = []
         for s in f.readlines():
@@ -203,7 +203,7 @@ def visit_directly_agent():
         # 打印结果信息
         log.info('这是第{0}次访问，这次访问的是：{1}。将会休眠{2}秒。'.format(i, title_current, s))
         if i % 50 == 0.3:
-            path = 'ip.txt'  # 存放爬取ip的文档path
+            path = 'config/xicidaili_ips.lis'  # 存放爬取ip的文档path
             targeturl = 'https://blog.csdn.net/maizi1045/article/details/79455347'  # 验证ip有效性的指定url
             getip(targeturl, path)
         else:
@@ -238,7 +238,7 @@ if __name__ == '__main__':
         # 打印结果信息
         log.info('这是第{0}次访问，这次访问的是：{1}。将会休眠{2}秒。'.format(i, title_current, s))
         if i % 50 == 0.3:
-            path = 'ip.txt'  # 存放爬取ip的文档path
+            path = 'config/xicidaili_ips.lis'  # 存放爬取ip的文档path
             targeturl = 'https://blog.csdn.net/maizi1045/article/details/79455347'  # 验证ip有效性的指定url
             getip(targeturl, path)
         else:
