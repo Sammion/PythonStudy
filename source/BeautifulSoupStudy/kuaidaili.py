@@ -4,7 +4,7 @@ import requests, threading, datetime
 from bs4 import BeautifulSoup
 import random
 import re
-from source.BeautifulSoupStudy.file_handler import *
+from src.BeautifulSoupStudy.file_handler import *
 
 """
 1、抓取快代理网站的代理ip

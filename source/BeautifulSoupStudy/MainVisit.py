@@ -14,7 +14,7 @@ log.info("Start programming!!!")
 
 def read_urls(file_input, mid="="):
     res_url = dict()
-    with open(file_input, 'r', encoding="UTF-8") as fr:
+    with open(file_input, 'r', encoding="utf-8") as fr:
         lines = fr.readlines()
         for line in lines:
             if line[0] == '#':
