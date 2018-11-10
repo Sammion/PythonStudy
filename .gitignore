@@ -13,3 +13,8 @@ source/BeautifulSoupStudy/logs/CLSFD_ADPO.log
 .idea/PythonStudy.iml
 .idea/misc.xml
 .idea/PythonStudy.iml
+source/BeautifulSoupStudy/logs/VistCSDN.log
+*.pyc
+source/BeautifulSoupStudy/config/xicidaili_ips.lis
+*.lis
+source/BeautifulSoupStudy/config/urls.cfg
