@@ -234,7 +234,7 @@ if __name__ == '__main__':
         # Visit directly
         visit_directly(headers, url_direct, proxy_IP)
         # 设置休眠时长
-        s = RandomNO(60)
+        s = RandomNO(30)
         # 打印结果信息
         log.info('这是第{0}次访问，这次访问的是：{1}。将会休眠{2}秒。'.format(i, title_current, s))
         if i % 50 == 0.3:
@@ -252,6 +252,6 @@ if __name__ == '__main__':
     # log.info(soup.find(id='article_content'))
 
     # 设置百度间接访问的url
-    url = 'https://www.baidu.com/s?ie=UTF-8&wd={kw}'.format(kw=random.choice(titles_list))
-    res = requests.get(str(url), headers=headers)
-    url = res.url
+    # url = 'https://www.baidu.com/s?ie=UTF-8&wd={kw}'.format(kw=random.choice(titles_list))
+    # res = requests.get(str(url), headers=headers)
+    # url = res.url
